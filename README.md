@@ -88,7 +88,23 @@ No clarifying questions, no confirmation prompts, no preamble in the output — 
 
 ## ⚡ Quick install (auto-detect)
 
-The fastest way to get started. The installer detects which AI coding tools you have on your machine and configures each one automatically — MCP server registration, workflow file placement, and API keys.
+Three ways to install, fastest first:
+
+### 🤖 Option 1 — Tell your AI assistant to do it
+
+The single fastest way. Copy [the install prompt](./INSTALL_PROMPT.md) and paste it into Claude Code, Cursor, OpenCode, Cline, Windsurf, or any AI coding tool. It will inspect this repo, detect which tool it's running inside, install correctly, and verify it works — all without you running a single command.
+
+```
+"Install dd-plugin from https://github.com/Amrwebdeveloper/dd-plugin
+ — inspect the integrations/ folder, detect which tool you're inside,
+ and follow that integration's README. Ask me for the API keys when needed."
+```
+
+See [`INSTALL_PROMPT.md`](./INSTALL_PROMPT.md) for the polished long-form version (English + Arabic).
+
+### 🛠 Option 2 — Run the auto-installer manually
+
+The installer detects which AI coding tools you have on your machine and configures each one automatically — MCP server registration, workflow file placement, and API keys.
 
 ```bash
 git clone https://github.com/Amrwebdeveloper/dd-plugin.git
@@ -146,7 +162,7 @@ You'll see output like:
 | `--uninstall` | Remove `dd-plugin` from selected tools |
 | `--help` | Print usage |
 
-### Non-interactive (CI / scripts)
+### 📋 Option 3 — Non-interactive (CI / scripts)
 
 ```bash
 DERABIA_WHOIS_API_KEY=xxx \
