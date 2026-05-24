@@ -1,0 +1,24 @@
+{
+  "name": "@dd-plugin/derabia-mcp",
+  "version": "1.0.0",
+  "description": "MCP server exposing Derabia WHOIS and domain pricing APIs",
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  },
+  "keywords": [
+    "mcp",
+    "derabia",
+    "whois",
+    "domain"
+  ],
+  "license": "MIT"
+}

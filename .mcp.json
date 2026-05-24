@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "derabia": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-servers/derabia/server.js"],
+      "env": {
+        "DERABIA_WHOIS_API_KEY": "${DERABIA_WHOIS_API_KEY}",
+        "DERABIA_PRICING_API_KEY": "${DERABIA_PRICING_API_KEY}",
+        "DERABIA_WHOIS_API_URL": "${DERABIA_WHOIS_API_URL:-https://api.derabia.com/whois}",
+        "DERABIA_PRICING_API_URL": "${DERABIA_PRICING_API_URL:-https://api.derabia.com/pricing}"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "dd",
+  "version": "1.0.0",
+  "description": "Autonomous domain-name suggester with WHOIS verification and ML-based brand-value pricing via Derabia APIs",
+  "author": {
+    "name": "Amr Web Developer",
+    "email": "amrwebdeveloper@gmail.com",
+    "url": "https://github.com/Amrwebdeveloper"
+  },
+  "homepage": "https://github.com/Amrwebdeveloper/dd-plugin",
+  "repository": "https://github.com/Amrwebdeveloper/dd-plugin",
+  "license": "MIT",
+  "keywords": [
+    "domain",
+    "whois",
+    "domain-name",
+    "branding",
+    "derabia",
+    "domain-availability",
+    "domain-pricing"
+  ]
+}
