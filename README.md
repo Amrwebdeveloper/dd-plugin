@@ -21,6 +21,7 @@ See [`integrations/README.md`](./integrations/README.md) for the full matrix.
 
 - [What it does](#what-it-does)
 - [Requirements](#requirements)
+- [⚡ Quick install (auto-detect)](#-quick-install-auto-detect)
 - [Installation (Claude Code)](#installation-claude-code)
 - [Installation (other tools)](#installation-other-tools)
 - [Configuration (API keys)](#configuration-api-keys)
@@ -78,6 +79,75 @@ No clarifying questions, no confirmation prompts, no preamble in the output — 
 | Derabia Pricing API key | — | Request one at [api.derabia.com](https://api.derabia.com) |
 
 > **Note:** API keys are granted on request via [api.derabia.com](https://api.derabia.com), not via self-service signup. Allow some time for approval.
+
+---
+
+## ⚡ Quick install (auto-detect)
+
+The fastest way to get started. The installer detects which AI coding tools you have on your machine and configures each one automatically — MCP server registration, workflow file placement, and API keys.
+
+```bash
+git clone https://github.com/Amrwebdeveloper/dd-plugin.git
+cd dd-plugin
+node install.js
+```
+
+You'll see output like:
+
+```
+  ┌─ dd-plugin installer ─────────────────────────┐
+  │  Detecting installed AI coding tools…         │
+  └───────────────────────────────────────────────┘
+
+  ● Claude Code
+  ● OpenCode (SST)
+  ○ Cursor
+  ● Cline (VS Code extension)
+  ○ Continue.dev
+  ○ Windsurf (Codeium)
+  ● VS Code GitHub Copilot
+  ○ Zed
+  ○ Goose (Block)
+
+› Pick which tools to configure
+   1. Claude Code
+   2. OpenCode (SST)
+   3. Cline (VS Code extension)
+   4. VS Code GitHub Copilot
+   a. All detected
+   q. Quit
+? Selection (e.g. "1,3" or "a"):
+```
+
+### Flags
+
+| Flag | What it does |
+|------|--------------|
+| _(no flag)_ | Interactive — detects, prompts which tools, asks for API keys |
+| `--all` | Configure every detected tool, no prompts |
+| `--tools=cursor,opencode` | Only configure the listed tools |
+| `--dry-run` | Show the plan, write nothing |
+| `--uninstall` | Remove `dd-plugin` from selected tools |
+| `--help` | Print usage |
+
+### Non-interactive (CI / scripts)
+
+```bash
+DERABIA_WHOIS_API_KEY=xxx \
+DERABIA_PRICING_API_KEY=yyy \
+node install.js --all
+```
+
+### What it does for each tool
+
+The installer:
+
+1. Runs `npm install` inside `mcp-servers/derabia/` if needed (one-time)
+2. **Merges** the `derabia` server into each tool's existing MCP config (it doesn't overwrite your other servers — your old config is backed up with a timestamp)
+3. Copies the appropriate workflow file (`agent/dd.md`, `rules/dd.mdc`, `clinerules/dd.md`, etc.) into the right location for each tool
+4. Prints restart instructions per tool
+
+> **Tip:** Use `--dry-run` first to preview what will change without writing anything.
 
 ---
 
@@ -304,6 +374,9 @@ The server validates domain format, handles `401`/`403`/`429` gracefully, enforc
 
 ```
 dd-plugin/
+├── install.js                   ← Auto-detect installer (run me first!)
+├── package.json                 ← npm scripts: setup, install:dry-run, …
+│
 ├── .claude-plugin/
 │   └── plugin.json              ← Claude Code plugin metadata
 ├── .mcp.json                    ← Claude Code MCP server declaration
