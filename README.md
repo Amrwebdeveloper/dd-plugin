@@ -5,7 +5,7 @@
 `dd-plugin` is a [Claude Code](https://claude.com/claude-code) plugin that bundles:
 
 1. **The `/dd` skill** — an autonomous workflow that brainstorms domain candidates, filters by availability, and ranks survivors by predicted brand value.
-2. **The `derabia` MCP server** — a Node.js server exposing two tools (`check_domain`, `get_domain_prices`) backed by the [Derabia](https://derabia.com) WHOIS and ML pricing APIs.
+2. **The `derabia` MCP server** — a Node.js server exposing two tools (`check_domain`, `get_domain_prices`) backed by the [Derabia](https://api.derabia.com) WHOIS and ML pricing APIs.
 
 Everything is in one repo. One install command, two API keys, and you're done.
 
@@ -67,8 +67,10 @@ No clarifying questions, no confirmation prompts, no preamble in the output — 
 |-------------|---------|-------|
 | [Claude Code](https://claude.com/claude-code) | latest | Install from claude.com/claude-code |
 | [Node.js](https://nodejs.org/) | ≥ 18.0.0 | Required for the MCP server |
-| Derabia WHOIS API key | — | Get one at [derabia.com](https://derabia.com) |
-| Derabia Pricing API key | — | Get one at [derabia.com](https://derabia.com) |
+| Derabia WHOIS API key | — | Request one at [api.derabia.com](https://api.derabia.com) |
+| Derabia Pricing API key | — | Request one at [api.derabia.com](https://api.derabia.com) |
+
+> **Note:** API keys are granted on request via [api.derabia.com](https://api.derabia.com), not via self-service signup. Allow some time for approval.
 
 ---
 
@@ -361,4 +363,4 @@ Areas where help is especially appreciated:
 
 MIT — see [LICENSE](./LICENSE).
 
-Derabia is a third-party service; this plugin is not officially affiliated with Derabia. You are responsible for your own API usage and any associated costs.
+Derabia is a third-party service; this plugin is not officially affiliated with Derabia. You are responsible for your own API usage and any associated costs. To request API access, visit [api.derabia.com](https://api.derabia.com).

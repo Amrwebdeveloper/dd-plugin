@@ -80,7 +80,7 @@ function normalizeDomain(domain) {
 async function checkDomain({ domain }) {
   if (!WHOIS_API_KEY) {
     return jsonError(
-      "DERABIA_WHOIS_API_KEY is not set. Get a key at https://derabia.com and export it as an environment variable."
+      "DERABIA_WHOIS_API_KEY is not set. Request a key at https://api.derabia.com and export it as an environment variable."
     );
   }
 
@@ -147,7 +147,7 @@ async function checkDomain({ domain }) {
 async function getDomainPrices({ domain }) {
   if (!PRICING_API_KEY) {
     return jsonError(
-      "DERABIA_PRICING_API_KEY is not set. Get a key at https://derabia.com and export it as an environment variable."
+      "DERABIA_PRICING_API_KEY is not set. Request a key at https://api.derabia.com and export it as an environment variable."
     );
   }
 

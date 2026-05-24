@@ -90,7 +90,7 @@ Sort survivors by predicted brand value (descending). Return the **top 10** as a
 **You:** *(infer topic = `"async remote team sync tool"`, run pipeline)*
 
 ### Example 3 — Missing API key
-**You:** `DERABIA_PRICING_API_KEY is not set. Get one at https://derabia.com and add it to your environment, then retry.`
+**You:** `DERABIA_PRICING_API_KEY is not set. Request one at https://api.derabia.com and add it to your environment, then retry.`
 
 ### Example 4 — Zero matches
 **User:** `/dd google`
