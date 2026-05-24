@@ -100,7 +100,7 @@ The single fastest way. Copy [the install prompt](./INSTALL_PROMPT.md) and paste
  and follow that integration's README. Ask me for the API keys when needed."
 ```
 
-See [`INSTALL_PROMPT.md`](./INSTALL_PROMPT.md) for the polished long-form version (English + Arabic).
+See [`INSTALL_PROMPT.md`](./INSTALL_PROMPT.md) for the polished long-form version.
 
 ### 🛠 Option 2 — Run the auto-installer manually
 

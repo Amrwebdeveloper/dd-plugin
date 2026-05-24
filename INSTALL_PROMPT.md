@@ -6,7 +6,7 @@ The prompt is **tool-agnostic** — the AI will detect which environment it's ru
 
 ---
 
-## 📋 The Prompt (English — primary, recommended)
+## 📋 The Prompt
 
 ```markdown
 You are about to install **dd-plugin** — an autonomous domain-name finder
@@ -87,82 +87,6 @@ Pick ONE path:
   DERABIA_PRICING_API_KEY = <I will provide, or read from env>
 
 Begin with Step 1.
-```
-
----
-
-## 📋 The Prompt (Arabic — same logic, Arabic narration)
-
-```markdown
-هتركّب أداة اسمها **dd-plugin** — أداة autonomous بتلاقي أسماء domains
-متاحة ومرتّبة حسب قيمتها التجارية. شغلك تفحص الـrepo، تفهمه، وتركّبه صح
-حسب الأداة اللي شغّال جواها.
-
-## السياق
-- الـRepo: https://github.com/Amrwebdeveloper/dd-plugin
-- بيعمل إيه: لما اكتب `/dd <topic>` بيرجّعلي جدول فيه domains متاحة
-  مرتّبة حسب قيمة الـbrand اللي بيتنبأ بيها ML model.
-- الـrepo فيه حاجتين:
-    1. MCP server (`mcp-servers/derabia/server.js`) بيوفّر toolين:
-       `check_domain` و `get_domain_prices`.
-    2. ملف workflow لكل أداة (skill / agent / rule / prompt) — نفس
-       الـpipeline لكن بصيغة كل أداة.
-
-## الخطوة 1 — افحص الـrepo
-اقرا:
-  1. `README.md` (الـroot)              → نظرة عامة + الأدوات المدعومة
-  2. `integrations/README.md`           → جدول الـ19 أداة
-  3. `integrations/<اسم-الأداة>/`       → README + configs خاصة بأداتك.
-                                          لو مش متأكد، استخدم `generic/`.
-  4. `install.js`                       → الـauto-installer (نظرة سريعة)
-
-بعدها قول لي في 3 جمل:
-  • الـMCP server بيعمل إيه.
-  • أنت شايف نفسك جوا أنهي أداة.
-  • هتستخدم أنهي integration folder.
-
-## الخطوة 2 — أكّد إنك فاهم
-قول صراحةً إنك فاهم إن:
-  • Node.js ≥ 18 شرط.
-  • Env vars لازمة اتنين: `DERABIA_WHOIS_API_KEY` و
-    `DERABIA_PRICING_API_KEY`. بيتقدّم عليهم طلب من https://api.derabia.com
-    (مش signup عادي).
-  • الـworkflow file هو اللي بيوصف الـ`/dd` pipeline (30 candidates →
-    WHOIS بالتوازي → pricing بالتوازي → جدول top-10).
-
-## الخطوة 3 — ركّب
-اختار طريقة واحدة:
-
-  أ. الـAUTO-INSTALLER (الأفضل لو عندك shell)
-     1. `git clone https://github.com/Amrwebdeveloper/dd-plugin.git`
-     2. `cd dd-plugin`
-     3. `node install.js --dry-run` — معاينة بس
-     4. وريني الناتج، واسألني قبل ما تكمل
-     5. لو وافقت: `node install.js --tools=<أداتك>` (أو `--all`)
-
-  ب. تركيب يدوي (لو الـshell محدود)
-     1. clone الـrepo في مكان ثابت (مثلاً `~/dd-plugin`).
-     2. `npm install` جوا `mcp-servers/derabia/`.
-     3. افتح `integrations/<أداتك>/README.md` واتبعه بالظبط.
-     4. استخدم paths مطلقة (absolute) في كل configs.
-
-## الخطوة 4 — تأكّد
-  1. الـenv vars الاتنين موجودين (أو متكتبين في الـconfig).
-  2. اعمل restart للأداة (الـMCP بيشتغل بس عند الـlaunch).
-  3. جرّب: اطلب "find domains for a fitness tracker app" وشوف
-     الجدول.
-
-## ممنوعات
-  • ممنوع تـcommit أي API key.
-  • لو في تركيب هيـoverwrite حاجة قديمة، اعمل backup الأول واسألني.
-  • لو مش متأكد من الأداة، **قف** واسألني.
-  • لو ملقتش الـkeys في الـenv، **قف** واطلبهم مني.
-
-## مفاتيحي
-  DERABIA_WHOIS_API_KEY   = <هقولك، أو اقراها من env>
-  DERABIA_PRICING_API_KEY = <هقولك، أو اقراها من env>
-
-ابدأ بالخطوة 1.
 ```
 
 ---
