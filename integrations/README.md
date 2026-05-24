@@ -8,17 +8,55 @@ This directory contains ready-to-copy integration files for each supported tool.
 
 ## Supported Tools
 
+### IDEs & coding agents
+
 | Tool | Folder | MCP config | Workflow format |
 |------|--------|------------|-----------------|
 | **Claude Code** | _(root of repo)_ | [`.mcp.json`](../.mcp.json) | [`skills/dd/SKILL.md`](../skills/dd/SKILL.md) |
-| **OpenCode** | [`opencode/`](./opencode/) | `opencode.json` (`mcp.derabia`) | `.opencode/agent/dd.md` |
+| **OpenCode** (SST) | [`opencode/`](./opencode/) | `opencode.json` (`mcp.derabia`) | `.opencode/agent/dd.md` |
 | **Cursor** | [`cursor/`](./cursor/) | `.cursor/mcp.json` | `.cursor/rules/dd.mdc` |
-| **Cline (VS Code)** | [`cline/`](./cline/) | `cline_mcp_settings.json` | `.clinerules/dd.md` |
+| **Cline** (VS Code) | [`cline/`](./cline/) | `cline_mcp_settings.json` | `.clinerules/dd.md` |
+| **Roo Code** ⚠️ | [`roo-code/`](./roo-code/) | `mcp_settings.json` (VS Code globalStorage) | `.roo/rules/dd.md` |
+| **Kilo Code** | [`kilo-code/`](./kilo-code/) | `mcp_settings.json` (VS Code globalStorage) | `.kilocode/rules/dd.md` |
 | **Continue.dev** | [`continue/`](./continue/) | `config.yaml` (`mcpServers`) | `.continue/prompts/dd.prompt` |
-| **Windsurf** | [`windsurf/`](./windsurf/) | `~/.codeium/windsurf/mcp_config.json` | `.windsurf/workflows/dd.md` |
+| **Windsurf** (Codeium) | [`windsurf/`](./windsurf/) | `~/.codeium/windsurf/mcp_config.json` | `.windsurf/workflows/dd.md` |
+| **Trae** (ByteDance) | [`trae/`](./trae/) | `~/.trae/settings/mcp.json` or UI | `.trae/rules/dd.md` |
+| **Kiro** (AWS) | [`kiro/`](./kiro/) | `~/.kiro/settings/mcp.json` | _inline prompt_ |
+| **Void** | [`void/`](./void/) | `~/.config/void/mcp_servers.json` | _inline prompt_ |
+| **Cody** (Sourcegraph) | [`cody/`](./cody/) | VS Code settings (`cody.experimental.mcp.servers`) | _inline prompt_ |
 | **VS Code Copilot** | [`vscode-copilot/`](./vscode-copilot/) | `.vscode/mcp.json` | _inline prompt_ |
 | **Zed** | [`zed/`](./zed/) | `settings.json` (`context_servers`) | _inline prompt_ |
-| **Goose, generic MCP, plain LLM** | [`generic/`](./generic/) | _varies_ | [`PROMPT.md`](./generic/PROMPT.md) |
+| **OpenHands** (OpenDevin) | [`openhands/`](./openhands/) | `config.toml` (`[mcp.stdio_servers.derabia]`) | _inline prompt_ |
+| **Aider** | [`aider/`](./aider/) | _no native MCP — prompt fallback only_ | _inline prompt_ |
+
+### Desktop chat clients (MCP-native)
+
+| Tool | Folder | MCP config | Workflow format |
+|------|--------|------------|-----------------|
+| **Claude Desktop** | [`claude-desktop/`](./claude-desktop/) | `claude_desktop_config.json` | _inline prompt_ |
+| **5ire** | [`5ire/`](./5ire/) | UI: Settings → Tools → MCP | _inline prompt_ |
+| **Goose** (Block) | [`generic/`](./generic/#b-goose-blocks-open-source-agent) | `~/.config/goose/config.yaml` | _inline prompt_ |
+
+### Catch-all
+
+| Tool | Folder | Notes |
+|------|--------|-------|
+| **Other / custom MCP / plain LLM** | [`generic/`](./generic/) | Universal [`PROMPT.md`](./generic/PROMPT.md) + install guide |
+
+> ⚠️ **Roo Code** was archived on 2026-05-15. Use Kilo Code instead if you're starting fresh.
+
+---
+
+## Quick install — auto-detect
+
+Don't want to set things up manually? Run the auto-installer from the repo root:
+
+```bash
+node install.js          # interactive, detects tools, prompts for keys
+node install.js --all    # configure every detected tool
+```
+
+See [the main README](../README.md#-quick-install-auto-detect) for the full installer reference.
 
 ---
 

@@ -1,0 +1,11 @@
+# Add this to your OpenHands config.toml
+# (typically at ~/.openhands/config.toml or inside the container at /app/config.toml)
+
+[mcp]
+
+[mcp.stdio_servers]
+
+[mcp.stdio_servers.derabia]
+command = "node"
+args = ["/absolute/path/to/dd-plugin/mcp-servers/derabia/server.js"]
+env = { DERABIA_WHOIS_API_KEY = "your_whois_key_here", DERABIA_PRICING_API_KEY = "your_pricing_key_here" }

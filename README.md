@@ -7,13 +7,17 @@
 1. **The `/dd` workflow** — an autonomous pipeline that brainstorms domain candidates, filters by WHOIS availability, and ranks survivors by predicted brand value.
 2. **The `derabia` MCP server** — a Node.js server exposing two tools (`check_domain`, `get_domain_prices`) backed by the [Derabia](https://api.derabia.com) WHOIS and ML pricing APIs.
 
-### Supported AI tools
+### Supported AI tools (19 and growing)
 
 The MCP server speaks the standard [Model Context Protocol](https://modelcontextprotocol.io), so it works with **any MCP-compatible client**. Ready-to-copy integration files are provided for:
 
-[Claude Code](#installation-claude-code) · [OpenCode](./integrations/opencode/) · [Cursor](./integrations/cursor/) · [Cline](./integrations/cline/) · [Continue.dev](./integrations/continue/) · [Windsurf](./integrations/windsurf/) · [VS Code Copilot](./integrations/vscode-copilot/) · [Zed](./integrations/zed/) · [Goose & generic](./integrations/generic/)
+**IDEs & coding agents:** [Claude Code](#installation-claude-code) · [OpenCode](./integrations/opencode/) · [Cursor](./integrations/cursor/) · [Cline](./integrations/cline/) · [Roo Code](./integrations/roo-code/) · [Kilo Code](./integrations/kilo-code/) · [Continue.dev](./integrations/continue/) · [Windsurf](./integrations/windsurf/) · [Trae](./integrations/trae/) · [Kiro](./integrations/kiro/) · [Void](./integrations/void/) · [Cody](./integrations/cody/) · [VS Code Copilot](./integrations/vscode-copilot/) · [Zed](./integrations/zed/) · [OpenHands](./integrations/openhands/) · [Aider](./integrations/aider/)
 
-See [`integrations/README.md`](./integrations/README.md) for the full matrix.
+**Desktop chat clients:** [Claude Desktop](./integrations/claude-desktop/) · [5ire](./integrations/5ire/) · [Goose](./integrations/generic/#b-goose-blocks-open-source-agent)
+
+**Anything else:** [Generic MCP / plain LLM](./integrations/generic/)
+
+See [`integrations/README.md`](./integrations/README.md) for the full matrix with config paths and workflow file formats.
 
 ---
 
@@ -108,12 +112,24 @@ You'll see output like:
   ● VS Code GitHub Copilot
   ○ Zed
   ○ Goose (Block)
+  ● Trae (ByteDance)
+  ○ Roo Code (VS Code, archived 2026-05-15)
+  ○ Kilo Code (Roo Code successor)
+  ● Claude Desktop
+  ○ Kiro (AWS)
+  ○ Void editor
+  ○ Cody (Sourcegraph)
+  ○ OpenHands (formerly OpenDevin)
+  ○ 5ire (desktop AI assistant)
+  ○ Aider (CLI, no native MCP)
 
 › Pick which tools to configure
    1. Claude Code
    2. OpenCode (SST)
    3. Cline (VS Code extension)
    4. VS Code GitHub Copilot
+   5. Trae (ByteDance)
+   6. Claude Desktop
    a. All detected
    q. Quit
 ? Selection (e.g. "1,3" or "a"):
@@ -183,22 +199,45 @@ cd ../..
 
 ## Installation (other tools)
 
-This plugin works in every major MCP-compatible AI tool. Pick yours:
+This plugin works in **19+ MCP-compatible AI tools** (and counting). Pick yours:
+
+### IDEs & coding agents
 
 | Tool | Integration folder | Workflow trigger |
 |------|--------------------|------------------|
-| **OpenCode** | [`integrations/opencode/`](./integrations/opencode/) | `@dd <topic>` |
-| **Cursor** | [`integrations/cursor/`](./integrations/cursor/) | Auto-attached when asking about domains |
-| **Cline** (VS Code) | [`integrations/cline/`](./integrations/cline/) | Natural language: "find domains for X" |
+| **OpenCode** (SST) | [`integrations/opencode/`](./integrations/opencode/) | `@dd <topic>` |
+| **Cursor** | [`integrations/cursor/`](./integrations/cursor/) | Auto-attached on domain questions |
+| **Cline** (VS Code) | [`integrations/cline/`](./integrations/cline/) | Natural language |
+| **Roo Code** ⚠️ archived | [`integrations/roo-code/`](./integrations/roo-code/) | Natural language |
+| **Kilo Code** (Roo successor) | [`integrations/kilo-code/`](./integrations/kilo-code/) | Natural language |
 | **Continue.dev** | [`integrations/continue/`](./integrations/continue/) | `/dd <topic>` |
-| **Windsurf** | [`integrations/windsurf/`](./integrations/windsurf/) | `/dd <topic>` |
-| **VS Code Copilot** (Agent mode) | [`integrations/vscode-copilot/`](./integrations/vscode-copilot/) | Inline prompt |
-| **Zed** | [`integrations/zed/`](./integrations/zed/) | Inline prompt in Assistant |
-| **Goose, custom MCP, plain LLM** | [`integrations/generic/`](./integrations/generic/) | See generic prompt |
+| **Windsurf** (Codeium) | [`integrations/windsurf/`](./integrations/windsurf/) | `/dd <topic>` |
+| **Trae** (ByteDance) | [`integrations/trae/`](./integrations/trae/) | Natural language |
+| **Kiro** (AWS) | [`integrations/kiro/`](./integrations/kiro/) | Inline prompt |
+| **Void** | [`integrations/void/`](./integrations/void/) | Inline prompt |
+| **Cody** (Sourcegraph) | [`integrations/cody/`](./integrations/cody/) | Inline prompt |
+| **VS Code Copilot** (Agent) | [`integrations/vscode-copilot/`](./integrations/vscode-copilot/) | Inline prompt |
+| **Zed** | [`integrations/zed/`](./integrations/zed/) | Inline prompt |
+| **OpenHands** (OpenDevin) | [`integrations/openhands/`](./integrations/openhands/) | Inline prompt |
+| **Aider** (no native MCP) | [`integrations/aider/`](./integrations/aider/) | Prompt + curl fallback |
+
+### Desktop chat clients
+
+| Tool | Integration folder | Workflow trigger |
+|------|--------------------|------------------|
+| **Claude Desktop** | [`integrations/claude-desktop/`](./integrations/claude-desktop/) | Inline prompt |
+| **5ire** | [`integrations/5ire/`](./integrations/5ire/) | Inline prompt |
+| **Goose** (Block) | [`integrations/generic/`](./integrations/generic/) | Inline prompt |
+
+### Catch-all
+
+| Tool | Integration folder | Notes |
+|------|--------------------|-------|
+| Anything else | [`integrations/generic/`](./integrations/generic/) | Universal PROMPT + install guide |
 
 Each folder is self-contained — open it and follow that folder's README. The MCP server itself is the same; only the workflow wrapper differs per tool.
 
-For the full overview, see [`integrations/README.md`](./integrations/README.md).
+For the full overview with config paths, see [`integrations/README.md`](./integrations/README.md).
 
 ---
 
@@ -390,15 +429,25 @@ dd-plugin/
 │       ├── server.js            ← MCP server (universal — used by all tools)
 │       └── .env.example         ← API key template
 │
-├── integrations/                ← Adapters for other AI tools
+├── integrations/                ← Adapters for 18 other AI tools
 │   ├── README.md                ← Tool matrix
 │   ├── opencode/                ← OpenCode (SST)
 │   ├── cursor/                  ← Cursor
 │   ├── cline/                   ← Cline (VS Code)
+│   ├── roo-code/                ← Roo Code (VS Code, archived)
+│   ├── kilo-code/               ← Kilo Code (Roo Code successor)
 │   ├── continue/                ← Continue.dev
-│   ├── windsurf/                ← Windsurf
+│   ├── windsurf/                ← Windsurf (Codeium)
+│   ├── trae/                    ← Trae (ByteDance)
+│   ├── kiro/                    ← Kiro (AWS)
+│   ├── void/                    ← Void editor
+│   ├── cody/                    ← Cody (Sourcegraph)
 │   ├── vscode-copilot/          ← VS Code GitHub Copilot Agent
 │   ├── zed/                     ← Zed editor
+│   ├── openhands/               ← OpenHands (formerly OpenDevin)
+│   ├── claude-desktop/          ← Claude Desktop app
+│   ├── 5ire/                    ← 5ire desktop AI client
+│   ├── aider/                   ← Aider CLI (prompt fallback)
 │   └── generic/                 ← Goose, custom MCP, plain LLM prompt
 │
 ├── README.md                    ← you are here

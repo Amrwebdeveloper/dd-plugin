@@ -113,7 +113,8 @@ ${bold("Usage")}
 
 ${bold("Supported tools")}
   claude-code, opencode, cursor, cline, continue, windsurf,
-  vscode-copilot, zed, goose
+  vscode-copilot, zed, goose, trae, roo-code, kilo-code,
+  claude-desktop, kiro, void, cody, openhands, 5ire, aider
 
 ${bold("Environment variables")} (skip interactive prompts)
   DERABIA_WHOIS_API_KEY
@@ -599,6 +600,413 @@ extensions:
       ];
     },
     restart: "Restart your Goose session.",
+  },
+
+  trae: {
+    label: "Trae (ByteDance)",
+    detect() {
+      return (
+        existsSync(join(HOME, ".trae")) ||
+        existsSync("/Applications/Trae.app") ||
+        existsSync(join(HOME, "AppData", "Local", "Programs", "Trae")) ||
+        existsSync(join(HOME, "AppData", "Roaming", "Trae")) ||
+        cmdExists("trae")
+      );
+    },
+    plan({ keys, serverPath }) {
+      const cfgPath = join(HOME, ".trae", "settings", "mcp.json");
+      const rulePath = join(HOME, ".trae", "rules", "dd.md");
+      const ruleSrc = join(INTEGRATIONS_DIR, "trae", "rules", "dd.md");
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["mcpServers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+            },
+          },
+        },
+        { kind: "copyFile", src: ruleSrc, dst: rulePath },
+        {
+          kind: "note",
+          text: `If Trae doesn't read ${cfgPath}, paste the same JSON into ${bold("Settings → MCP → Configure Manually")} inside Trae's UI.`,
+        },
+      ];
+    },
+    restart: "Quit and relaunch Trae.",
+  },
+
+  "roo-code": {
+    label: "Roo Code (VS Code, archived 2026-05-15)",
+    detect() {
+      const exts = getVSCodeExtensions();
+      return exts.includes("rooveterinaryinc.roo-cline");
+    },
+    plan({ keys, serverPath }) {
+      let cfgPath;
+      if (IS_WIN) {
+        cfgPath = join(
+          HOME,
+          "AppData",
+          "Roaming",
+          "Code",
+          "User",
+          "globalStorage",
+          "rooveterinaryinc.roo-cline",
+          "settings",
+          "mcp_settings.json"
+        );
+      } else if (PLAT === "darwin") {
+        cfgPath = join(
+          HOME,
+          "Library",
+          "Application Support",
+          "Code",
+          "User",
+          "globalStorage",
+          "rooveterinaryinc.roo-cline",
+          "settings",
+          "mcp_settings.json"
+        );
+      } else {
+        cfgPath = join(
+          HOME,
+          ".config",
+          "Code",
+          "User",
+          "globalStorage",
+          "rooveterinaryinc.roo-cline",
+          "settings",
+          "mcp_settings.json"
+        );
+      }
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["mcpServers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+            },
+            disabled: false,
+            alwaysAllow: [],
+          },
+        },
+        {
+          kind: "note",
+          text: `${yellow("Roo Code was archived on 2026-05-15.")} Consider migrating to ${bold("Kilo Code")} (use --tools=kilo-code instead).`,
+        },
+      ];
+    },
+    restart: "Click the refresh icon in Roo Code's MCP Servers panel.",
+  },
+
+  "kilo-code": {
+    label: "Kilo Code (VS Code, Roo Code successor)",
+    detect() {
+      const exts = getVSCodeExtensions();
+      return exts.includes("kilocode.kilo-code");
+    },
+    plan({ keys, serverPath }) {
+      let cfgPath;
+      if (IS_WIN) {
+        cfgPath = join(
+          HOME,
+          "AppData",
+          "Roaming",
+          "Code",
+          "User",
+          "globalStorage",
+          "kilocode.kilo-code",
+          "settings",
+          "mcp_settings.json"
+        );
+      } else if (PLAT === "darwin") {
+        cfgPath = join(
+          HOME,
+          "Library",
+          "Application Support",
+          "Code",
+          "User",
+          "globalStorage",
+          "kilocode.kilo-code",
+          "settings",
+          "mcp_settings.json"
+        );
+      } else {
+        cfgPath = join(
+          HOME,
+          ".config",
+          "Code",
+          "User",
+          "globalStorage",
+          "kilocode.kilo-code",
+          "settings",
+          "mcp_settings.json"
+        );
+      }
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["mcpServers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+            },
+            disabled: false,
+            alwaysAllow: [],
+          },
+        },
+      ];
+    },
+    restart: "Click the refresh icon in Kilo Code's MCP Servers panel.",
+  },
+
+  "claude-desktop": {
+    label: "Claude Desktop",
+    detect() {
+      // Check config dir or app install
+      const macCfg = join(HOME, "Library", "Application Support", "Claude");
+      const winCfg = join(HOME, "AppData", "Roaming", "Claude");
+      const linuxCfg = join(HOME, ".config", "Claude");
+      const macApp = "/Applications/Claude.app";
+      const winApp = join(HOME, "AppData", "Local", "Programs", "Claude");
+      return (
+        existsSync(macCfg) ||
+        existsSync(winCfg) ||
+        existsSync(linuxCfg) ||
+        existsSync(macApp) ||
+        existsSync(winApp)
+      );
+    },
+    plan({ keys, serverPath }) {
+      let cfgPath;
+      if (IS_WIN) {
+        cfgPath = join(HOME, "AppData", "Roaming", "Claude", "claude_desktop_config.json");
+      } else if (PLAT === "darwin") {
+        cfgPath = join(
+          HOME,
+          "Library",
+          "Application Support",
+          "Claude",
+          "claude_desktop_config.json"
+        );
+      } else {
+        cfgPath = join(HOME, ".config", "Claude", "claude_desktop_config.json");
+      }
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["mcpServers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+            },
+          },
+        },
+      ];
+    },
+    restart: "Fully quit Claude Desktop (⌘Q on mac, tray → Quit on win) and relaunch.",
+  },
+
+  kiro: {
+    label: "Kiro (AWS)",
+    detect() {
+      return (
+        existsSync(join(HOME, ".kiro")) ||
+        existsSync("/Applications/Kiro.app") ||
+        cmdExists("kiro")
+      );
+    },
+    plan({ keys, serverPath }) {
+      const cfgPath = join(HOME, ".kiro", "settings", "mcp.json");
+      // Kiro doesn't inherit PATH — set a sensible default
+      const pathEnv = IS_WIN
+        ? "C:\\Program Files\\nodejs;C:\\Windows\\System32"
+        : "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin";
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["mcpServers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+              PATH: pathEnv,
+            },
+            disabled: false,
+            disabledTools: [],
+          },
+        },
+        {
+          kind: "note",
+          text: `${yellow("Kiro doesn't inherit shell PATH.")} If 'node' isn't found, change env.PATH to the directory containing your node binary (find it with: ${bold("which node")}).`,
+        },
+      ];
+    },
+    restart: "Quit and relaunch Kiro.",
+  },
+
+  void: {
+    label: "Void editor",
+    detect() {
+      return (
+        existsSync(join(HOME, ".config", "void")) ||
+        existsSync(join(HOME, "Library", "Application Support", "Void")) ||
+        existsSync(join(HOME, "AppData", "Roaming", "void")) ||
+        existsSync("/Applications/Void.app") ||
+        cmdExists("void")
+      );
+    },
+    plan({ keys, serverPath }) {
+      let cfgPath;
+      if (IS_WIN) cfgPath = join(HOME, "AppData", "Roaming", "void", "mcp_servers.json");
+      else cfgPath = join(HOME, ".config", "void", "mcp_servers.json");
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["mcpServers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+            },
+          },
+        },
+        {
+          kind: "note",
+          text: `Void has a known bug restricting MCP servers to its install dir. If you hit "module not found", check ${bold("https://github.com/voideditor/void/issues/701")}.`,
+        },
+      ];
+    },
+    restart: "Quit and relaunch Void.",
+  },
+
+  cody: {
+    label: "Cody (Sourcegraph)",
+    detect() {
+      const exts = getVSCodeExtensions();
+      return exts.includes("sourcegraph.cody-ai");
+    },
+    plan({ keys, serverPath }) {
+      let cfgPath;
+      if (IS_WIN) cfgPath = join(HOME, "AppData", "Roaming", "Code", "User", "settings.json");
+      else if (PLAT === "darwin")
+        cfgPath = join(HOME, "Library", "Application Support", "Code", "User", "settings.json");
+      else cfgPath = join(HOME, ".config", "Code", "User", "settings.json");
+      return [
+        {
+          kind: "mergeJson",
+          path: cfgPath,
+          root: ["cody.experimental.mcp.servers"],
+          key: "derabia",
+          value: {
+            command: "node",
+            args: [serverPath],
+            env: {
+              DERABIA_WHOIS_API_KEY: keys.whois,
+              DERABIA_PRICING_API_KEY: keys.pricing,
+            },
+          },
+        },
+        {
+          kind: "note",
+          text: `Cody MCP requires ${bold("agentic context gathering")} (paid plans only). The setting key ${dim("cody.experimental.mcp.servers")} may be renamed in future versions.`,
+        },
+      ];
+    },
+    restart: "Cmd/Ctrl+Shift+P → 'Developer: Reload Window'.",
+  },
+
+  openhands: {
+    label: "OpenHands (formerly OpenDevin)",
+    detect() {
+      return existsSync(join(HOME, ".openhands")) || cmdExists("openhands");
+    },
+    plan({ keys, serverPath }) {
+      // OpenHands uses TOML — best done manually or via UI
+      const snippet = `[mcp]
+
+[mcp.stdio_servers]
+
+[mcp.stdio_servers.derabia]
+command = "node"
+args = ["${serverPath}"]
+env = { DERABIA_WHOIS_API_KEY = "${keys.whois}", DERABIA_PRICING_API_KEY = "${keys.pricing}" }`;
+      return [
+        {
+          kind: "note",
+          text: `OpenHands uses ${bold("TOML")} config (not JSON). The simplest path is the UI:\n${bold("Settings → MCP → Add Server → Stdio")}.\n\nOr add this to your config.toml manually:\n\n${snippet}`,
+        },
+      ];
+    },
+    restart: "Restart your OpenHands runtime / Docker container.",
+  },
+
+  "5ire": {
+    label: "5ire (desktop AI assistant)",
+    detect() {
+      return (
+        existsSync("/Applications/5ire.app") ||
+        existsSync(join(HOME, "AppData", "Local", "Programs", "5ire")) ||
+        existsSync(join(HOME, "AppData", "Roaming", "5ire")) ||
+        existsSync(join(HOME, ".config", "5ire"))
+      );
+    },
+    plan({ keys, serverPath }) {
+      return [
+        {
+          kind: "note",
+          text: `5ire configures MCP via its UI:\n${bold("Settings → Tools → MCP Servers → Add Server (Local/stdio)")}\n\nName: derabia\nCommand: node\nArgs: ${serverPath}\nEnv:\n  DERABIA_WHOIS_API_KEY=${keys.whois}\n  DERABIA_PRICING_API_KEY=${keys.pricing}`,
+        },
+      ];
+    },
+    restart: "5ire picks up MCP changes immediately — no restart needed.",
+  },
+
+  aider: {
+    label: "Aider (CLI, no native MCP)",
+    detect() {
+      return cmdExists("aider");
+    },
+    plan() {
+      return [
+        {
+          kind: "note",
+          text: `${yellow("Aider does not natively support MCP")} (see issue #4506).\nUse the prompt-based fallback in ${bold("integrations/aider/README.md")} which has the LLM call the Derabia API directly via curl.\nFor a true MCP-native CLI experience, consider ${bold("OpenCode")} instead.`,
+        },
+      ];
+    },
+    restart: "n/a",
   },
 };
 
