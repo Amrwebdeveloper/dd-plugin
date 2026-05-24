@@ -1,0 +1,14 @@
+{
+  "context_servers": {
+    "derabia": {
+      "command": {
+        "path": "node",
+        "args": ["/absolute/path/to/dd-plugin/mcp-servers/derabia/server.js"],
+        "env": {
+          "DERABIA_WHOIS_API_KEY": "your_whois_key_here",
+          "DERABIA_PRICING_API_KEY": "your_pricing_key_here"
+        }
+      }
+    }
+  }
+}

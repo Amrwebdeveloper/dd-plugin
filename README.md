@@ -1,13 +1,19 @@
-# dd-plugin — Autonomous Domain Name Finder for Claude Code
+# dd-plugin — Autonomous Domain Name Finder
 
 > Generate available, brand-worthy domain names in seconds. Type `/dd <topic>` and get a ranked list of available domains scored by an ML brand-value model.
 
-`dd-plugin` is a [Claude Code](https://claude.com/claude-code) plugin that bundles:
+`dd-plugin` bundles two things in one repo:
 
-1. **The `/dd` skill** — an autonomous workflow that brainstorms domain candidates, filters by availability, and ranks survivors by predicted brand value.
+1. **The `/dd` workflow** — an autonomous pipeline that brainstorms domain candidates, filters by WHOIS availability, and ranks survivors by predicted brand value.
 2. **The `derabia` MCP server** — a Node.js server exposing two tools (`check_domain`, `get_domain_prices`) backed by the [Derabia](https://api.derabia.com) WHOIS and ML pricing APIs.
 
-Everything is in one repo. One install command, two API keys, and you're done.
+### Supported AI tools
+
+The MCP server speaks the standard [Model Context Protocol](https://modelcontextprotocol.io), so it works with **any MCP-compatible client**. Ready-to-copy integration files are provided for:
+
+[Claude Code](#installation-claude-code) · [OpenCode](./integrations/opencode/) · [Cursor](./integrations/cursor/) · [Cline](./integrations/cline/) · [Continue.dev](./integrations/continue/) · [Windsurf](./integrations/windsurf/) · [VS Code Copilot](./integrations/vscode-copilot/) · [Zed](./integrations/zed/) · [Goose & generic](./integrations/generic/)
+
+See [`integrations/README.md`](./integrations/README.md) for the full matrix.
 
 ---
 
@@ -15,7 +21,8 @@ Everything is in one repo. One install command, two API keys, and you're done.
 
 - [What it does](#what-it-does)
 - [Requirements](#requirements)
-- [Installation](#installation)
+- [Installation (Claude Code)](#installation-claude-code)
+- [Installation (other tools)](#installation-other-tools)
 - [Configuration (API keys)](#configuration-api-keys)
 - [Usage](#usage)
 - [Examples](#examples)
@@ -74,7 +81,7 @@ No clarifying questions, no confirmation prompts, no preamble in the output — 
 
 ---
 
-## Installation
+## Installation (Claude Code)
 
 ### Option A — Install from GitHub (recommended)
 
@@ -101,6 +108,27 @@ cd ../..
 # Add this to your Claude Code settings.json:
 #   "plugins": ["./path/to/dd-plugin"]
 ```
+
+---
+
+## Installation (other tools)
+
+This plugin works in every major MCP-compatible AI tool. Pick yours:
+
+| Tool | Integration folder | Workflow trigger |
+|------|--------------------|------------------|
+| **OpenCode** | [`integrations/opencode/`](./integrations/opencode/) | `@dd <topic>` |
+| **Cursor** | [`integrations/cursor/`](./integrations/cursor/) | Auto-attached when asking about domains |
+| **Cline** (VS Code) | [`integrations/cline/`](./integrations/cline/) | Natural language: "find domains for X" |
+| **Continue.dev** | [`integrations/continue/`](./integrations/continue/) | `/dd <topic>` |
+| **Windsurf** | [`integrations/windsurf/`](./integrations/windsurf/) | `/dd <topic>` |
+| **VS Code Copilot** (Agent mode) | [`integrations/vscode-copilot/`](./integrations/vscode-copilot/) | Inline prompt |
+| **Zed** | [`integrations/zed/`](./integrations/zed/) | Inline prompt in Assistant |
+| **Goose, custom MCP, plain LLM** | [`integrations/generic/`](./integrations/generic/) | See generic prompt |
+
+Each folder is self-contained — open it and follow that folder's README. The MCP server itself is the same; only the workflow wrapper differs per tool.
+
+For the full overview, see [`integrations/README.md`](./integrations/README.md).
 
 ---
 
@@ -277,16 +305,29 @@ The server validates domain format, handles `401`/`403`/`429` gracefully, enforc
 ```
 dd-plugin/
 ├── .claude-plugin/
-│   └── plugin.json              ← plugin metadata
-├── .mcp.json                    ← MCP server declaration
+│   └── plugin.json              ← Claude Code plugin metadata
+├── .mcp.json                    ← Claude Code MCP server declaration
 ├── skills/
 │   └── dd/
-│       └── SKILL.md             ← the /dd skill
+│       └── SKILL.md             ← Claude Code /dd skill
+│
 ├── mcp-servers/
 │   └── derabia/
 │       ├── package.json
-│       ├── server.js            ← MCP server implementation
+│       ├── server.js            ← MCP server (universal — used by all tools)
 │       └── .env.example         ← API key template
+│
+├── integrations/                ← Adapters for other AI tools
+│   ├── README.md                ← Tool matrix
+│   ├── opencode/                ← OpenCode (SST)
+│   ├── cursor/                  ← Cursor
+│   ├── cline/                   ← Cline (VS Code)
+│   ├── continue/                ← Continue.dev
+│   ├── windsurf/                ← Windsurf
+│   ├── vscode-copilot/          ← VS Code GitHub Copilot Agent
+│   ├── zed/                     ← Zed editor
+│   └── generic/                 ← Goose, custom MCP, plain LLM prompt
+│
 ├── README.md                    ← you are here
 ├── LICENSE                      ← MIT
 └── .gitignore

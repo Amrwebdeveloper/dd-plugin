@@ -1,0 +1,11 @@
+# Add this to your ~/.continue/config.yaml under the top-level `mcpServers` key.
+# If `mcpServers` already exists, append the `- name: derabia` entry to the list.
+
+mcpServers:
+  - name: derabia
+    command: node
+    args:
+      - /absolute/path/to/dd-plugin/mcp-servers/derabia/server.js
+    env:
+      DERABIA_WHOIS_API_KEY: your_whois_key_here
+      DERABIA_PRICING_API_KEY: your_pricing_key_here

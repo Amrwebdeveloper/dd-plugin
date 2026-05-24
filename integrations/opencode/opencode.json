@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "derabia": {
+      "type": "local",
+      "command": ["node", "/absolute/path/to/dd-plugin/mcp-servers/derabia/server.js"],
+      "enabled": true,
+      "environment": {
+        "DERABIA_WHOIS_API_KEY": "your_whois_key_here",
+        "DERABIA_PRICING_API_KEY": "your_pricing_key_here"
+      }
+    }
+  }
+}
